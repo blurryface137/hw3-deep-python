@@ -46,14 +46,13 @@ class Steam_scrapy(scrapy.Spider):
         if price == None:
             price = 'free'
 
-        release = int(response.css('div.date::text').get()[-4:])
-        if release > 2000:
+        if int(response.css('div.date::text').get()[-4:]) > 2000:
             return {
                 'name': response.css('div.apphub_AppName::text').get(),
                 'category': response.css('div.blockbg a::text')[1:].getall(),
                 'count_of_reviews': response.css('div.user_reviews_summary_bar span::text')[1].get(),
                 'overall_score': response.css('span.game_review_summary::text').get(),
-                'release': release,
+                'release': response.css('div.date::text').get(),
                 'developer': response.css('div.dev_row a::text').get(),
                 'game_tag': game_tags,
                 'price': price,
